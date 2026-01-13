@@ -1,11 +1,23 @@
 import React from 'react'
-import { Button } from './components/ui/button'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import AppLayout from './layouts/AppLayout'
+import LandingPage from './pages/LandingPage'
+
+const router = createBrowserRouter([
+  {
+    element:<AppLayout />,
+    children:[
+      {
+        path:"/",
+        element:<LandingPage />
+      }
+    ]
+  }
+])
 
 const App = () => {
   return (
-    <div>
-      <Button variant="outline">Button</Button>
-    </div>
+    <RouterProvider router={router} />
   )
 }
 

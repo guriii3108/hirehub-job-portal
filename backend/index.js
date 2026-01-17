@@ -6,6 +6,7 @@ import connectDB from "./utils/dbConnect.js";
 import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
+import applicationRoute from "./routes/application.route.js";
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use("/api/v1/user",userRoute); //user routes
 app.use("/api/v1/company",companyRoute); //company routes
 app.use("/api/v1/job",jobRoute); //job routes
+app.use("/api/v1/application",applicationRoute); //application routes
 
 app.listen(PORT, () => {
     connectDB();

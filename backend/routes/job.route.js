@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { isAuthenticated } from "../middlewares/auth.middleware.js";
-import { getAllJobs, getAdminJobs, getJobById, postJob } from "../controllers/job.controlller.js";
+import { getAllJobs, getAdminJobs, getJobById, postJob } from "../controllers/job.controller.js";
 const route = Router();
 
 route.post("/post-job",isAuthenticated,postJob);

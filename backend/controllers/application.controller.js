@@ -4,7 +4,7 @@ import Job from "../models/job.model.js";
 export const applyJob = async (req, res) => {
     try {
         const { jobId } = req.params;
-        const { userId } = req.id;
+        const userId = req.id;
 
         if (!jobId) {
             return res.status(400).json({
@@ -37,12 +37,13 @@ export const applyJob = async (req, res) => {
         const newApplication = await Application.create({
             job: jobId,
             applicant: userId,
+            company: job.company,
         });
         job.applications.push(newApplication._id);
         await job.save();
         return res.status(201).json({
             success: true,
-            message: "Application created successfully",
+            message: "Application submitted successfully",
             data: newApplication,
         });
     } catch (error) {
@@ -55,7 +56,7 @@ export const applyJob = async (req, res) => {
 
 export const getAppliedJobs = async(req,res)=>{
   try {
-    const {userId} = req.id;
+    const userId = req.id;
     const applications = await Application.find({applicant:userId}).populate("job").populate("company").sort({createdAt:-1});
     if(!applications){
       return res.status(404).json({
@@ -83,7 +84,13 @@ export const getApplicants = async(req,res)=>{
     const {userId} = req.id; //admin id
 
     //check if the job exist for not
-    const job = await Job.findById(jobId).populate("applications").populate("applicant");
+    const job = await Job.findById(jobId).populate({
+      path:"applications",
+      options:{sort:{createdAt:-1}},
+      populate:{
+        path:"applicant",
+      }
+    })
 
     if(!job){
       return res.status(404).json({
@@ -118,7 +125,7 @@ export const updateApplicationStatus = async(req,res)=>{
     }
 
     //check if the application exist for not
-    const application = await Application.findOne(applicationId);
+    const application = await Application.findById(applicationId)
     if(!application){
       return res.status(404).json({
         success:false,

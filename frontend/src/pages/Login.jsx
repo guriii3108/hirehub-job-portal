@@ -5,9 +5,14 @@ import { ChevronDown, Check } from 'lucide-react'
 import { showError, showSuccess } from '../utils/toast'
 import axios from 'axios'
 import { USER_API_ENDPOINT } from '../utils/constant'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '../redux/authSlice.js'
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch(); //we dispatch the action first
+  const {loading} = useSelector(store => store.auth); //we select the state
+
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -32,6 +37,7 @@ const Login = () => {
       role: data.role ==="Job Seeker" ? "jobseeker" : "recruiter"
     }
     try {
+      dispatch(setLoading(true));
       const response = await axios.post(`${USER_API_ENDPOINT}/login`,inputData,{
         headers:{
           "Content-Type": "application/json"
@@ -51,6 +57,9 @@ const Login = () => {
       }
     } catch (error) {
       showError(error.response.data.message);
+    }
+    finally{ //finally because we want to dispatch it in all cases
+      dispatch(setLoading(false));
     }
   }
 
@@ -123,13 +132,21 @@ const Login = () => {
               )}
             </div>
 
-            <button
+            {
+              loading ?(  
+                <div className='flex items-center justify-center'>
+                  <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-black'></div>
+                </div>
+              ):(
+                <button
               type='submit'
               className='w-full bg-black text-white py-2.5 rounded-lg font-medium hover:bg-zinc-800 transition-all duration-200 shadow-sm mt-2'
             >
               Login
             </button>
-
+              )
+            }
+          
             <p className='text-center text-sm text-gray-600 mt-2'>
               Don't have an account?{' '}
               <Link to="/signup" className='text-black font-semibold hover:underline'>

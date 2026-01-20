@@ -5,10 +5,15 @@ import { ChevronDown, Check } from 'lucide-react'
 import axios from 'axios'
 import { USER_API_ENDPOINT } from '../utils/constant.js'
 import { showError, showSuccess } from '../utils/toast.js'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '../redux/authSlice.js'
 
 
 const Signup = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {loading} = useSelector(store=>store.auth);
+
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -33,6 +38,7 @@ const Signup = () => {
   }
 
   const submitHandler = async(e) => {
+    dispatch(setLoading(true))
     e.preventDefault();
     const formData = new FormData(); //because we are sending file also
     formData.append("fullName", data.name);
@@ -67,6 +73,8 @@ const Signup = () => {
     } catch (error) {
       console.log(error.response.data);
       showError(error.response.data.message);
+    }finally{
+      dispatch(setLoading(false))
     }
     
   }
@@ -170,14 +178,20 @@ const Signup = () => {
                 </div>
               )}
             </div>
-
-            <button
+            {
+              loading ? (
+                <div className='flex items-center justify-center'>
+                  <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-black'></div>
+                </div>
+              ) : (
+              <button
               type='submit'
               className='w-full bg-black text-white py-2.5 rounded-lg font-medium hover:bg-zinc-800 transition-all duration-200 shadow-sm mt-2'
             >
               Sign Up
             </button>
-
+              )            
+            }
             <p className='text-center text-sm text-gray-600 mt-2'>
               Already have an account?{' '}
               <Link to="/login" className='text-black font-semibold hover:underline'>

@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import ProfileMenu from './ProfileMenu'
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
-  const user = true; // Temporary: simulate logged-in state to show avatar
+  const {user} = useSelector((store) => store.auth);
 
   return (
     <nav className='sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-gray-100'>
@@ -33,7 +34,7 @@ const Navbar = () => {
           {/* Right: Auth / User Menu */}
           <div className='flex items-center gap-4'>
             {user ? (
-              <ProfileMenu />
+              <ProfileMenu user={user} />
             ) : (
               <>
                 <Link to='/login' className='hidden md:block text-sm font-medium text-gray-600 hover:text-black transition-colors duration-200'>

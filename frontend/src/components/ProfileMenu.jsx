@@ -1,17 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { User, LogOut, Settings, FileText } from 'lucide-react'
+import { useSelector } from 'react-redux';
 
 const ProfileMenu = () => {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef(null)
 
-  // Use dummy user data for now
-  const user = {
-    name: "John Doe",
-    email: "john@example.com",
-    avatar: "https://ui-avatars.com/api/?name=John+Doe&background=3b82f6&color=fff"
-  }
+  const {user} = useSelector((store) => store.auth);
+  const name = user.fullName.split(" ").map((word) => word.charAt(0).toUpperCase()).join("");
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -36,8 +33,8 @@ const ProfileMenu = () => {
       >
         <div className='w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-sm ring-2 ring-gray-100 hover:ring-blue-200 transition-all'>
           <img
-            src={user.avatar}
-            alt={user.name}
+            src={user.avatar ? user.avatar : `https://ui-avatars.com/api/?name=${name}&background=3b82f6&color=fff`}
+            alt={user.fullName}
             className='w-full h-full object-cover'
           />
         </div>
@@ -47,7 +44,7 @@ const ProfileMenu = () => {
       {isOpen && (
         <div className='absolute right-0 mt-3 w-64 bg-white rounded-xl shadow-[0_4px_20px_-1px_rgba(0,0,0,0.1)] border border-gray-100 py-2 z-50 transform origin-top-right transition-all duration-200 ease-out animate-in fade-in slide-in-from-top-2'>
           <div className='px-4 py-3 border-b border-gray-50 mb-1'>
-            <p className='text-sm font-semibold text-gray-800'>{user.name}</p>
+            <p className='text-sm font-semibold text-gray-800'>{user.fullName}</p>
             <p className='text-xs text-gray-500 truncate'>{user.email}</p>
           </div>
 

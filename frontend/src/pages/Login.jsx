@@ -6,7 +6,7 @@ import { showError, showSuccess } from '../utils/toast'
 import axios from 'axios'
 import { USER_API_ENDPOINT } from '../utils/constant'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLoading } from '../redux/authSlice.js'
+import { setLoading, setUser } from '../redux/authSlice.js'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -52,6 +52,7 @@ const Login = () => {
           password: "",
           role: "",
         });
+         dispatch(setUser(response.data.user));
           navigate("/");
         }, 1000);
       }

@@ -4,6 +4,8 @@ import SignUp from './pages/SignUp.jsx'
 import Jobs from './pages/Jobs.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Browse from './pages/Browse.jsx'
+import Profile from './pages/Profile.jsx'
+import JobDetail from './pages/JobDetail.jsx'
 
 const App = () => {
   const appRouter = createBrowserRouter([
@@ -23,9 +25,17 @@ const App = () => {
       path: '/jobs',
       element: <Jobs />
     },
+    { 
+      path: '/job/:id',
+      element: <JobDetail />
+    },
     {
       path: '/browse',
       element: <Browse />
+    },
+    {
+      path: '/profile',
+      element: <Profile />
     }
   ])
   return (

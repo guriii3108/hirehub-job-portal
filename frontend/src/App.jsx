@@ -36,6 +36,10 @@ const App = () => {
     {
       path: '/profile',
       element: <Profile />
+    },
+    {
+      path: '/job/:id',
+      element: <JobDetail />
     }
   ])
   return (

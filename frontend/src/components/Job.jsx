@@ -1,7 +1,10 @@
 import React from 'react'
 import { Bookmark } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const Job = () => {
+  const navigate = useNavigate();
+  const jobId = "1234567890";
   return (
     <div className='p-6 rounded-xl shadow-sm bg-white border border-gray-100 cursor-pointer hover:shadow-md hover:border-gray-200 transition-all duration-300'>
 
@@ -42,7 +45,7 @@ const Job = () => {
 
       {/* Footer Actions */}
       <div className='flex items-center justify-between border-t border-gray-50 pt-4 mt-auto'>
-        <button className='px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50'>
+        <button onClick={() => navigate(`/description/${jobId}`)} className='px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50'>
           Details
         </button>
         <button className='bg-[#6A38C2] text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-[#5b30a6] transition-colors shadow-sm'>

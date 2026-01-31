@@ -26,7 +26,7 @@ const App = () => {
       element: <Jobs />
     },
     { 
-      path: '/job/:id',
+      path: '/description/:id',
       element: <JobDetail />
     },
     {
@@ -36,10 +36,6 @@ const App = () => {
     {
       path: '/profile',
       element: <Profile />
-    },
-    {
-      path: '/job/:id',
-      element: <JobDetail />
     }
   ])
   return (
